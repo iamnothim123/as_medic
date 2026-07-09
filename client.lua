@@ -1,6 +1,27 @@
 enroute = false
+isDead = false
 print(enroute)
+
+
+function checkHealth(source, args)
+    local player = PlayerPedId()
+    local playercoords = GetEntityCoords(player)
+    local PlayerData = exports.qbx_core:GetPlayerData()
+
+    if PlayerData and PlayerData.metadata then
+        isDead = PlayerData.metadata.isdead or PlayerData.metadata.inlaststand
+    end
+
+    if isDead then
+        comeMedic()
+        else
+        print("you don't need a medic")
+    end
+
+end
+
 function comeMedic(source, args)
+---if isDead then
     if enroute then
         print("EMS is already enroute")
         return
@@ -22,7 +43,7 @@ function comeMedic(source, args)
     if PlayerData and PlayerData.metadata then
         isDead = PlayerData.metadata.isdead or PlayerData.metadata.inlaststand
     end
-    ---if isDead then
+            ---if isDead then
 
           
     
@@ -208,12 +229,17 @@ end)
     end)
 
 end)
+---else
+          -- print("you don't  need a medic")
+end     
 
-end     ---else
-        ---    print("you don't  need a medic")
-        ---end
+
+        
 
 
 end
 
-RegisterCommand("medic", comeMedic, false)
+
+RegisterCommand("medic", checkHealth, false)
+
+---end
